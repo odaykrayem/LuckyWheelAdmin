@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">LuckyWheel Admin</string>
+
+    <!-- drawer strings -->
+    <string name="menu_text_font_family">serif-monospace</string>
+    <string name="menu_btn_first_txt">المستخدمين</string>
+    <string name="menu_btn_second_txt">الفائزين</string>
+    <string name="menu_btn_third_txt">المشاركين في اليانصيب</string>
+    <string name="menu_btn_fourth_txt">مسابقات</string>
+    <string name="menu_btn_fifth_txt">طلبات السحب</string>
+    <string name="navigation_drawer_open">Drawer opened</string>
+    <string name="navigation_drawer_close">Drawer closed</string>
+
+    <string name="user_name">الاسم:</string>
+    <string name="email">البريد الالكتروني:</string>
+    <string name="referral_code">كود الدعوة:</string>
+    <string name="balance">الرصيد</string>
+    <string name="points">النقاط</string>
+    <string name="btn_delete_p_txt">حذف المشارك</string>
+    <string name="prize">الجائزة</string>
+    <string name="btn_make_winner_p_txt">تحويل لفائز</string>
+    <string name="winner_p_txt"> حاليا فائز</string>
+    <string name="btn_make_not_winner_p_txt">تحويل لغير فائز</string>
+    <string name="draw_date">تاريخ السحب:</string>
+    <string name="btn_delete_contest_txt">حذف المسابقة</string>
+    <string name="dialog_delete_contest">هل تريد بالتأكيد حذف هذه المسابقة ؟</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+
+    <!--drawer strings end -->
+
+</resources>
