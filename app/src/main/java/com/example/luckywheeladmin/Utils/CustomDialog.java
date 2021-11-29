@@ -80,7 +80,7 @@ public class CustomDialog extends Dialog  {
                         if(NetworkUtils.checkInternetConnection(getContext())){
                             addContestToDB(nameET.getText().toString().trim(),prizeET.getText().toString().trim(),drawDateET.getText().toString().trim());
                         }else{
-                            Toast.makeText(getContext(), R.string.check_internet, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

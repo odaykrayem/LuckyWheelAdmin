@@ -20,9 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.luckywheeladmin.Models.ParticipantModel;
 import com.example.luckywheeladmin.Models.RequestModel;
 import com.example.luckywheeladmin.R;
+import com.example.luckywheeladmin.Utils.CustomRequestInfoDialog;
 import com.example.luckywheeladmin.Utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -64,80 +64,112 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
         if(requestModel.isStatus()){
             holder.doneBtn.setEnabled(false);
+            holder.delayBtn.setEnabled(true);
             holder.statusTV.setText(R.string.btn_make_request_done);
             holder.statusTV.setTextColor(0xff33980F);
         }else{
             holder.doneBtn.setEnabled(true);
+            holder.delayBtn.setEnabled(false);
             holder.statusTV.setText(R.string.btn_make_request_delay);
             holder.statusTV.setTextColor(0xff670303);
         }
         holder.doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                makeUserWinner(String.valueOf(participantModel.getUser_id()),position);
-
+                if(NetworkUtils.checkInternetConnection(context)){
+                    ChangeRequestState(String.valueOf(requestModelArrayList.get(position).getId()),"done",position);
+                }else{
+                    Toast.makeText(context, R.string.connection_error, Toast.LENGTH_SHORT).show();
+                }            }
+        });
+        holder.delayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(NetworkUtils.checkInternetConnection(context)){
+                    ChangeRequestState(String.valueOf(requestModelArrayList.get(position).getId()),"not_done",position);
+                }else{
+                    Toast.makeText(context, R.string.connection_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomRequestInfoDialog cd = new CustomRequestInfoDialog(context,requestModelArrayList.get(position));
+                cd.show();
             }
         });
 
 
+
     }
-//    private void makeRequestDone(String request_id, int position) {
-//        // creating a new variable for our request queue
-//        RequestQueue queue = Volley.newRequestQueue(context);
-//        // creating a variable for our json object request and passing our url to it.
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, NetworkUtils.CHANGE_USER_WINNER_STATE_URL,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            Log.e(TAG, response);
-//                            JSONObject jsonObject = new JSONObject(response);
-//                            String error = jsonObject.getString("error");
-//                            String message = jsonObject.getString("message");
-//                            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-//                            requestModelArrayList.get(position).setIs_winner(true);
-//                            notifyItemChanged(position);
-//                        } catch (JSONException e) {
-//
-//                            Toast.makeText(context, "Fail to get data.." + e.toString()
-//                                    + "\nCause " + e.getCause()
-//                                    + "\nmessage" + e.getMessage(), Toast.LENGTH_LONG).show();
-//                            System.out.println("error1:::" + e.toString()
-//                                    + "\nCause " + e.getCause()
-//                                    + "\nmessage" + e.getMessage());
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//                // handling on error listener method.
-//                Toast.makeText(context, "Fail to get data.." + error.toString()
-//
-//                        + "\nCause " + error.getCause()
-//                        + "\nmessage" + error.getMessage(), Toast.LENGTH_LONG).show();
-//                System.out.println("error2" + error.toString()
-//
-//                        + "\nCause " + error.getCause()
-//                        + "\nmessage" + error.getMessage());
-//            }
-//        }) {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> parameters = new HashMap<String, String>();
-//                parameters.put("user_id", user_id);
-//                parameters.put("state", "winner");
-//                return parameters;
-//            }
-//        };
-//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-//                3000,
-//                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//        //adding our string request to queue
-//        queue.add(stringRequest);
-//
-//    }
+    // status : done / not_done
+    private void ChangeRequestState(String request_id, String status, int position) {
+        // creating a new variable for our request queue
+        RequestQueue queue = Volley.newRequestQueue(context);
+        // creating a variable for our json object request and passing our url to it.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, NetworkUtils.CHANGE_REQUEST_STATE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.e(TAG, response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            String error = jsonObject.getString("error");
+                            String message = jsonObject.getString("message");
+                            if(error.equals("false")){
+                                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                                if(status.equals("done")){
+                                    requestModelArrayList.get(position).setStatus(true);
+                                }else{
+                                    requestModelArrayList.get(position).setStatus(false);
+                                }
+                                notifyItemChanged(position);
+                            }else{
+                                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (JSONException e) {
+
+                            Toast.makeText(context, "Fail to get data.." + e.toString()
+                                    + "\nCause " + e.getCause()
+                                    + "\nmessage" + e.getMessage(), Toast.LENGTH_LONG).show();
+                            System.out.println("error1:::" + e.toString()
+                                    + "\nCause " + e.getCause()
+                                    + "\nmessage" + e.getMessage());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // handling on error listener method.
+                Toast.makeText(context, "Fail to get data.." + error.toString()
+
+                        + "\nCause " + error.getCause()
+                        + "\nmessage" + error.getMessage(), Toast.LENGTH_LONG).show();
+                System.out.println("error2" + error.toString()
+
+                        + "\nCause " + error.getCause()
+                        + "\nmessage" + error.getMessage());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("request_id", request_id);
+                parameters.put("state", status);
+                return parameters;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                3000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //adding our string request to queue
+        queue.add(stringRequest);
+
+    }
 
     @Override
     public int getItemCount() {

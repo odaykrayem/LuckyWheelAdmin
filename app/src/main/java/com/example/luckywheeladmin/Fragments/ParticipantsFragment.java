@@ -81,8 +81,8 @@ public class ParticipantsFragment extends Fragment implements SwipeRefreshLayout
                             JSONObject jsonObject = new JSONObject(response);
                             String message = jsonObject.getString("message");
                             String code = jsonObject.getString("error");
-                            JSONArray operations = jsonObject.getJSONArray("list");
                             if (code.equals("false")) {
+                                JSONArray operations = jsonObject.getJSONArray("list");
                                 Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                 for (int i = 0; i < operations.length(); i++) {
                                     JSONObject object = operations.getJSONObject(i);

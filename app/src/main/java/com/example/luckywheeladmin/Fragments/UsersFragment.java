@@ -98,7 +98,7 @@ public class UsersFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                             String code = jsonObject.getString("error");
                             if(code.equals("false")) {
                                 JSONArray operations =  jsonObject.getJSONArray("list");
-                                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                 for (int i = 0; i < operations.length(); i++) {
                                     JSONObject object = operations.getJSONObject(i);
                                     Log.e(TAG, object.toString());

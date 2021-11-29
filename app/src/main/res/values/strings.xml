@@ -30,11 +30,16 @@
     <string name="dialog_contest_cancel">إلغاء</string>
     <string name="dialog_add_contest_question">من فضلك أدخل معلومات المسابقة</string>
     <string name="contest_name">اسم المسابقة</string>
-    <string name="check_internet">من فضلك تحقق من الاتصال بالانترنت</string>
-    <string name="amount">المبلغ</string>
+    <string name="connection_error">من فضلك تحقق من الاتصال بالانترنت</string>
+    <string name="amount">المبلغ:</string>
     <string name="btn_make_request_done">محقق</string>
     <string name="btn_make_request_delayed">تأجيل</string>
     <string name="btn_make_request_delay">مؤجل</string>
+    <string name="dialog_request_info_title">معلومات الطلب:</string>
+    <string name="request_date">تاريخ الطلب:</string>
+    <string name="request_status">حالة الطلب:</string>
+    <string name="bank_code">كود المحفظة:</string>
+    <string name="copy_bank_code">نسخ كود المحفظة</string>
 
     <!--drawer strings end -->
 
