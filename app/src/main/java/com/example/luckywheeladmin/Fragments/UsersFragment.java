@@ -65,8 +65,11 @@ public class UsersFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
-
-
+        return view;
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mSwipeRefreshLayout.post(new Runnable() {
 
             @Override
@@ -77,9 +80,8 @@ public class UsersFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
             }
         });
-        return view;
-    }
 
+    }
     private void getUsers() {
         // creating a new variable for our request queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -143,12 +145,6 @@ public class UsersFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             public void onErrorResponse(VolleyError error) {
                 mSwipeRefreshLayout.setRefreshing(false);
 
-
-                // handling on error listener method.
-                Toast.makeText(getContext(), "Fail to get data.." + error.toString()
-
-                        + "\nCause " + error.getCause()
-                        + "\nmessage" + error.getMessage(), Toast.LENGTH_LONG).show();
                 System.out.println("error2" + error.toString()
 
                         + "\nCause " + error.getCause()
@@ -169,12 +165,7 @@ public class UsersFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         queue.add(stringRequest);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getUsers();
 
-    }
 
     @Override
     public void onRefresh() {

@@ -1,5 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="6dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginEnd="6dp"
+    android:elevation="8dp"
+    android:layoutDirection="rtl"
+    app:cardCornerRadius="8dp"
+
+    >
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
+
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="start"
+            android:orientation="vertical"
+
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_name"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/item_tv_fixed_txt_size" />
+
+            <!--text view for displaying last name-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/email"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/item_tv_fixed_txt_size" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/amount"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/item_tv_fixed_txt_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@id/linear1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User Name"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/item_tv_txt_size"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"/>
+
+            <!--text view for displaying last name-->
+            <TextView
+                android:id="@+id/tv_item_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="email"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/item_tv_txt_size"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/tv_item_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Prize"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/item_tv_txt_size"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_toEndOf="@id/linear2"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_item_request_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:text="حالة الطلب"
+                android:textColor="@color/green"
+                android:textSize="@dimen/item_tv_txt_size"
+                android:gravity="center_horizontal" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@id/linear2"
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:weightSum="2">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_delay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_delete_btn"
+                android:text="@string/btn_make_request_delayed"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/item_delete_btn_txt_size"
+                android:layout_weight="1"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_make_winner_btn"
+                android:text="@string/btn_make_request_done"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/item_delete_btn_txt_size"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

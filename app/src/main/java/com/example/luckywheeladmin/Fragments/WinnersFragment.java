@@ -66,6 +66,12 @@ public class WinnersFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 android.R.color.holo_blue_dark);
 
 
+
+        return view;
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mSwipeRefreshLayout.post(new Runnable() {
 
             @Override
@@ -75,9 +81,7 @@ public class WinnersFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 getWinners();
 
             }
-        });
-        return view;
-    }
+        });    }
 
     private void getWinners() {
         // creating a new variable for our request queue
@@ -143,12 +147,6 @@ public class WinnersFragment extends Fragment implements SwipeRefreshLayout.OnRe
             public void onErrorResponse(VolleyError error) {
                 mSwipeRefreshLayout.setRefreshing(false);
 
-
-                // handling on error listener method.
-                Toast.makeText(getContext(), "Fail to get data.." + error.toString()
-
-                        + "\nCause " + error.getCause()
-                        + "\nmessage" + error.getMessage(), Toast.LENGTH_LONG).show();
                 System.out.println("error2" + error.toString()
 
                         + "\nCause " + error.getCause()
@@ -170,11 +168,6 @@ public class WinnersFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getWinners();
-    }
 
     @Override
     public void onRefresh() {

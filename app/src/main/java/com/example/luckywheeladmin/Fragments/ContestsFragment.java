@@ -25,11 +25,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.luckywheeladmin.Adapters.ContestsAdapter;
-import com.example.luckywheeladmin.Adapters.ParticipantAdapter;
 import com.example.luckywheeladmin.Models.ContestModel;
 import com.example.luckywheeladmin.Models.ParticipantModel;
 import com.example.luckywheeladmin.R;
+import com.example.luckywheeladmin.Utils.CustomDialog;
 import com.example.luckywheeladmin.Utils.NetworkUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,12 +39,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+//TODo: add contest
 
 public class ContestsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView contestsRV;
     private NestedScrollView nestedSV;
     SwipeRefreshLayout mSwipeRefreshLayout;
     LinearLayout note;
+    FloatingActionButton floatingActionButton;
 
     private ArrayList<ContestModel> contestModelArrayList;
     private ContestsAdapter contestsAdapter;
@@ -62,7 +65,8 @@ public class ContestsFragment extends Fragment implements SwipeRefreshLayout.OnR
         note = view.findViewById(R.id.note);
         contestsRV = view.findViewById(R.id.rv_contests);
         nestedSV = view.findViewById(R.id.nested_sV);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe);
+        floatingActionButton = view.findViewById(R.id.contest_fab);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
@@ -70,19 +74,29 @@ public class ContestsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 android.R.color.holo_blue_dark);
 
 
-        mSwipeRefreshLayout.post(new Runnable() {
+        return view;
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-
                 mSwipeRefreshLayout.setRefreshing(true);
                 getContests();
 
             }
         });
-        return view;
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomDialog cd = new CustomDialog(getActivity());
+//                cd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                cd.show();
+            }
+        });
     }
-
     private void getContests() {
         // creating a new variable for our request queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -143,14 +157,7 @@ public class ContestsFragment extends Fragment implements SwipeRefreshLayout.OnR
             public void onErrorResponse(VolleyError error) {
                 mSwipeRefreshLayout.setRefreshing(false);
 
-
-                // handling on error listener method.
-                Toast.makeText(getContext(), "Fail to get data.." + error.toString()
-
-                        + "\nCause " + error.getCause()
-                        + "\nmessage" + error.getMessage(), Toast.LENGTH_LONG).show();
                 System.out.println("error2" + error.toString()
-
                         + "\nCause " + error.getCause()
                         + "\nmessage" + error.getMessage());
             }
@@ -169,10 +176,7 @@ public class ContestsFragment extends Fragment implements SwipeRefreshLayout.OnR
         queue.add(stringRequest);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
+
 
     @Override
     public void onRefresh() {

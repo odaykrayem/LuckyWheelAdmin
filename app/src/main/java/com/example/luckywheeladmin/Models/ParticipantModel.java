@@ -58,4 +58,36 @@ public class ParticipantModel {
     public int getPrize() {
         return prize;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public void setContest_id(int contest_id) {
+        this.contest_id = contest_id;
+    }
+
+    public void setIs_winner(boolean is_winner) {
+        this.is_winner = is_winner;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPrize(int prize) {
+        this.prize = prize;
+    }
+
+    public void setDraw_date(String draw_date) {
+        this.draw_date = draw_date;
+    }
 }

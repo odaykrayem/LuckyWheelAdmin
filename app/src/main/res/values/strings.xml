@@ -11,7 +11,7 @@
     <string name="navigation_drawer_open">Drawer opened</string>
     <string name="navigation_drawer_close">Drawer closed</string>
 
-    <string name="user_name">الاسم:</string>
+    <string name="user_name">اسم المستخدم:</string>
     <string name="email">البريد الالكتروني:</string>
     <string name="referral_code">كود الدعوة:</string>
     <string name="balance">الرصيد</string>
@@ -26,6 +26,15 @@
     <string name="dialog_delete_contest">هل تريد بالتأكيد حذف هذه المسابقة ؟</string>
     <string name="yes">نعم</string>
     <string name="no">لا</string>
+    <string name="dialog_contest_add">إضافة</string>
+    <string name="dialog_contest_cancel">إلغاء</string>
+    <string name="dialog_add_contest_question">من فضلك أدخل معلومات المسابقة</string>
+    <string name="contest_name">اسم المسابقة</string>
+    <string name="check_internet">من فضلك تحقق من الاتصال بالانترنت</string>
+    <string name="amount">المبلغ</string>
+    <string name="btn_make_request_done">محقق</string>
+    <string name="btn_make_request_delayed">تأجيل</string>
+    <string name="btn_make_request_delay">مؤجل</string>
 
     <!--drawer strings end -->
 

@@ -1,8 +1,12 @@
 package com.example.luckywheeladmin.Utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+
 public class NetworkUtils {
 //    public static final String BASE_URL =  "http://192.168.43.130";
-public static final String BASE_URL =  "http://192.168.1.107";
+public static final String BASE_URL =  "http://192.168.1.36";
+//    public static final String BASE_URL =   "https://luckywheelapp.000webhostapp.com/";
 
     public static final String BASE_API_FOLDER = "lucky_wheel_api/admin";
     public static final String GET_ALL_USERS = "get_all_users.php";
@@ -13,7 +17,9 @@ public static final String BASE_URL =  "http://192.168.1.107";
     public static final String DELETE_CONTEST = "delete_contest.php";
     public static final String GET_ALL_WITHDRAWAL_REQUESTS = "get_all_withdrawal_requests.php";
     public static final String GET_ALL_WINNERS = "get_all_winners.php";
-    public static final String CHANGE_USER_WINNER_STATE = "change_User_winner_state.php";
+    public static final String CHANGE_USER_WINNER_STATE = "change_user_winner_state.php";
+    public static final String CHANGE_REQUEST_STATE = "change_request_state.php";
+
     //to do get delete all participants
 
     public static final String GET_ALL_USERS_URL =
@@ -60,6 +66,14 @@ public static final String BASE_URL =  "http://192.168.1.107";
             NetworkUtils.BASE_URL + "/" +
                     NetworkUtils.BASE_API_FOLDER + "/" +
                     NetworkUtils.CHANGE_USER_WINNER_STATE;
+    public static final String CHANGE_REQUEST_STATE_URL =
+            NetworkUtils.BASE_URL + "/" +
+                    NetworkUtils.BASE_API_FOLDER + "/" +
+                    NetworkUtils.CHANGE_REQUEST_STATE;
 
 
+    public static boolean checkInternetConnection(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected());
+    }
 }

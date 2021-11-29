@@ -65,7 +65,7 @@ public class ContestsAdapter extends RecyclerView.Adapter<ContestsAdapter.ViewHo
             public void onClick(View v) {
                 LayoutInflater inflater= LayoutInflater.from(context);
 
-                final View view=inflater.inflate(R.layout.delete_contest_dialog,null);
+                final View view=inflater.inflate(R.layout.dialog_delete_contest,null);
                 final AlertDialog.Builder alertDialogueBuilder= new AlertDialog.Builder(context);
 
                 alertDialogueBuilder.setView(view);

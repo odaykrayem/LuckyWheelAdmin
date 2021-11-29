@@ -23,9 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.luckywheeladmin.Adapters.ParticipantAdapter;
-import com.example.luckywheeladmin.Adapters.UserAdapter;
 import com.example.luckywheeladmin.Models.ParticipantModel;
-import com.example.luckywheeladmin.Models.UserModel;
 import com.example.luckywheeladmin.R;
 import com.example.luckywheeladmin.Utils.NetworkUtils;
 import org.json.JSONArray;
@@ -66,18 +64,6 @@ public class ParticipantsFragment extends Fragment implements SwipeRefreshLayout
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
-
-
-        mSwipeRefreshLayout.post(new Runnable() {
-
-            @Override
-            public void run() {
-
-                mSwipeRefreshLayout.setRefreshing(true);
-                getParticipants();
-
-            }
-        });
         return view;
     }
 
@@ -95,8 +81,8 @@ public class ParticipantsFragment extends Fragment implements SwipeRefreshLayout
                             JSONObject jsonObject = new JSONObject(response);
                             String message = jsonObject.getString("message");
                             String code = jsonObject.getString("error");
+                            JSONArray operations = jsonObject.getJSONArray("list");
                             if (code.equals("false")) {
-                                JSONArray operations = jsonObject.getJSONArray("list");
                                 Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                 for (int i = 0; i < operations.length(); i++) {
                                     JSONObject object = operations.getJSONObject(i);
@@ -176,8 +162,16 @@ public class ParticipantsFragment extends Fragment implements SwipeRefreshLayout
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getParticipants();
+        mSwipeRefreshLayout.post(new Runnable() {
 
+            @Override
+            public void run() {
+
+                mSwipeRefreshLayout.setRefreshing(true);
+                getParticipants();
+
+            }
+        });
     }
 
     @Override
