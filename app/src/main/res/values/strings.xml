@@ -17,7 +17,7 @@
     <string name="balance">الرصيد</string>
     <string name="points">النقاط</string>
     <string name="btn_delete_p_txt">حذف المشارك</string>
-    <string name="prize">الجائزة</string>
+    <string name="prize">الجائزة:</string>
     <string name="btn_make_winner_p_txt">تحويل لفائز</string>
     <string name="winner_p_txt"> حاليا فائز</string>
     <string name="btn_make_not_winner_p_txt">تحويل لغير فائز</string>

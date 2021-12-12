@@ -49,13 +49,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/item_tv_fixed_txt_size" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/prize"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/item_tv_fixed_txt_size" />
+
 
         </LinearLayout>
 
@@ -76,7 +70,8 @@
                 android:layout_height="wrap_content"
                 android:text="User Name"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/item_tv_txt_size" />
+                android:textSize="@dimen/item_tv_txt_size"
+                android:gravity="start"/>
 
             <!--text view for displaying last name-->
             <TextView
@@ -86,17 +81,41 @@
                 android:layout_marginTop="10dp"
                 android:text="email"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/item_tv_txt_size" />
+                android:textSize="@dimen/item_tv_txt_size"
+                android:gravity="start"/>
 
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_prize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/linear2"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:weightSum="2"
+            >
             <TextView
-                android:id="@+id/tv_item_prize"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="@string/prize"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/item_tv_fixed_txt_size" />
+            <TextView
+                android:id="@+id/tv_item_prize"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@color/colorAccent"
                 android:text="Prize"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/item_tv_txt_size" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -106,7 +125,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_below="@id/linear2"
+            android:layout_below="@id/linear_prize"
             android:orientation="horizontal"
             android:layout_alignParentEnd="true"
             android:weightSum="2">

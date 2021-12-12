@@ -144,6 +144,8 @@ public class CustomDialog extends Dialog  {
                             Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                             dismiss();
                         } catch (JSONException e) {
+                            progressBar.setVisibility(View.GONE);
+                            buttonsLayout.setVisibility(View.GONE);
 
                             Toast.makeText(getContext(), "Fail to get data.." + e.toString()
                                     + "\nCause " + e.getCause()
@@ -156,6 +158,8 @@ public class CustomDialog extends Dialog  {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressBar.setVisibility(View.GONE);
+                buttonsLayout.setVisibility(View.GONE);
 
                 // handling on error listener method.
                 Toast.makeText(getContext(), "Fail to get data.." + error.toString()
@@ -173,6 +177,8 @@ public class CustomDialog extends Dialog  {
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("prize", prize);
                 parameters.put("draw_date", draw_date);
+                parameters.put("name", name);
+
                 return parameters;
             }
         };

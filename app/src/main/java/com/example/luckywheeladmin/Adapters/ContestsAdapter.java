@@ -60,6 +60,8 @@ public class ContestsAdapter extends RecyclerView.Adapter<ContestsAdapter.ViewHo
 
         holder.prizeTV.setText(String.valueOf(contestModel.getPrize()));
         holder.drawDateTV.setText(String.valueOf(contestModel.getDraw_date()));
+        holder.nameTV.setText(contestModel.getName());
+
         holder.deleteContestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,7 +157,7 @@ public class ContestsAdapter extends RecyclerView.Adapter<ContestsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // creating a variable for our text view and image view.
-        private TextView prizeTV, drawDateTV;
+        private TextView prizeTV, drawDateTV, nameTV;
         private Button deleteContestBtn;
 
         public ViewHolder(@NonNull View itemView) {
@@ -165,6 +167,7 @@ public class ContestsAdapter extends RecyclerView.Adapter<ContestsAdapter.ViewHo
             prizeTV = itemView.findViewById(R.id.tv_item_prize);
             drawDateTV = itemView.findViewById(R.id.tv_item_draw_date);
             deleteContestBtn = itemView.findViewById(R.id.btn_delete_contest);
+            nameTV = itemView.findViewById(R.id.tv_item_contest_name);
 
         }
     }
