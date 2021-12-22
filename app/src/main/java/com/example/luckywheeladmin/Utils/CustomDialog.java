@@ -3,6 +3,7 @@ package com.example.luckywheeladmin.Utils;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -41,11 +43,12 @@ public class CustomDialog extends Dialog  {
         public Activity c;
         public Dialog d;
         public Button addBtn, cancelBtn;
-        public EditText nameET, prizeET, drawDateET;
+        public EditText nameET, prizeET, drawDateET ,drawTimeET;
         public ProgressBar progressBar;
         LinearLayout buttonsLayout;
 
         final Calendar myCalendar = Calendar.getInstance();
+       final Calendar calenderTime = Calendar.getInstance();
 
         private static String TAG = "Dialog";
         public CustomDialog(Activity a) {
@@ -69,6 +72,7 @@ public class CustomDialog extends Dialog  {
             nameET = findViewById(R.id.contest_name);
             prizeET = findViewById(R.id.contest_prize);
             drawDateET = findViewById(R.id.contest_draw_date);
+            drawTimeET = findViewById(R.id.contest_draw_time);
 
             buttonsLayout.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
@@ -78,7 +82,7 @@ public class CustomDialog extends Dialog  {
                 public void onClick(View v) {
                     if(validateInput()){
                         if(NetworkUtils.checkInternetConnection(getContext())){
-                            addContestToDB(nameET.getText().toString().trim(),prizeET.getText().toString().trim(),drawDateET.getText().toString().trim());
+                            addContestToDB(nameET.getText().toString().trim(),prizeET.getText().toString().trim(),drawDateET.getText().toString().trim(),drawTimeET.getText().toString().trim());
                         }else{
                             Toast.makeText(getContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
                         }
@@ -103,20 +107,35 @@ public class CustomDialog extends Dialog  {
                             myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 }
             });
+            drawTimeET.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    int hour = calenderTime.get(Calendar.HOUR);
+
+                    int minute = calenderTime.get(Calendar.MINUTE);
+                    TimePickerDialog mTimePicker;
+                    mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                            drawTimeET.setText( selectedHour + ":" + selectedMinute + String.valueOf(calenderTime.get(Calendar.AM_PM)));
+                        }
+                    }, hour, minute, true);//Yes 24 hour time
+                    mTimePicker.setTitle("Select Time");
+                    mTimePicker.show();
+                }
+            });
         }
 
-    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            // TODO Auto-generated method stub
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
-        }
 
+    DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
+        // TODO Auto-generated method stub
+        myCalendar.set(Calendar.YEAR, year);
+        myCalendar.set(Calendar.MONTH, monthOfYear);
+        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        updateLabel();
     };
     private void updateLabel() {
         String myFormat = "yyyy-MM-dd"; //In which you need put here
@@ -124,7 +143,7 @@ public class CustomDialog extends Dialog  {
 
         drawDateET.setText(sdf.format(myCalendar.getTime()));
     }
-    private void addContestToDB(String name, String prize, String draw_date) {
+    private void addContestToDB(String name, String prize, String draw_date, String draw_time) {
             buttonsLayout.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
 
@@ -177,6 +196,7 @@ public class CustomDialog extends Dialog  {
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("prize", prize);
                 parameters.put("draw_date", draw_date);
+                parameters.put("draw_time", draw_time);
                 parameters.put("name", name);
 
                 return parameters;

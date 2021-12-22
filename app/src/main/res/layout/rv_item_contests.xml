@@ -54,6 +54,12 @@
                 android:text="@string/draw_date"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/item_tv_fixed_txt_size" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/draw_time"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/item_tv_fixed_txt_size" />
 
 
 
@@ -90,10 +96,16 @@
                 android:id="@+id/tv_item_draw_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="User Name"
+                android:text="00-00-0000"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/item_tv_txt_size" />
-
+            <TextView
+                android:id="@+id/tv_item_draw_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/item_tv_txt_size" />
 
 
         </LinearLayout>

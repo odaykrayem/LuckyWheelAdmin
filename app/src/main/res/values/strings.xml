@@ -40,6 +40,7 @@
     <string name="request_status">حالة الطلب:</string>
     <string name="bank_code">كود المحفظة:</string>
     <string name="copy_bank_code">نسخ كود المحفظة</string>
+    <string name="draw_time">توقيت السحب</string>
 
     <!--drawer strings end -->
 

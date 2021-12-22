@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="300dp"
     android:background="#3E80B4"
     android:orientation="vertical">
 
@@ -50,6 +50,19 @@
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:hint="@string/draw_date"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+
+            />
+        <EditText
+            android:id="@+id/contest_draw_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:hint="@string/draw_time"
             android:clickable="false"
             android:cursorVisible="false"
             android:focusable="false"

@@ -122,6 +122,7 @@ public class ContestsFragment extends Fragment implements SwipeRefreshLayout.OnR
                                             object.getInt("id"),
                                             object.getInt("prize"),
                                             object.getString("draw_date"),
+                                            object.getString("draw_time"),
                                             object.getString("name")));
                                     System.out.println("jsonObject" + object.toString());
                                 }

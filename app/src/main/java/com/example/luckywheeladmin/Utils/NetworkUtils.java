@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 
 public class NetworkUtils {
 //    public static final String BASE_URL =  "http://192.168.43.130";
-//public static final String BASE_URL =  "http://192.168.1.36";
+//public static final String BASE_URL =  "http://192.168.1.9";
     public static final String BASE_URL =   "https://luckywheelapp.000webhostapp.com/";
 
     public static final String BASE_API_FOLDER = "lucky_wheel_api/admin";

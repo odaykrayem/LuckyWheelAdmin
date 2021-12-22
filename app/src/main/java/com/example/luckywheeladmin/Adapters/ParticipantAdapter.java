@@ -69,15 +69,16 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
         holder.makeWinnerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeUserWinner(String.valueOf(participantModel.getUser_id()),position);
+                makeUserWinner(String.valueOf(participantModel.getUser_id()),position, String.valueOf(participantModel.getContest_id()));
 
             }
         });
 
 
     }
-    private void makeUserWinner(String user_id, int position) {
+    private void makeUserWinner(String user_id, int position, String contest_id) {
         // creating a new variable for our request queue
+        Log.e(TAG,"user id" + user_id);
         RequestQueue queue = Volley.newRequestQueue(context);
         // creating a variable for our json object request and passing our url to it.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, NetworkUtils.CHANGE_USER_WINNER_STATE_URL,
@@ -121,6 +122,7 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("user_id", user_id);
+                parameters.put("contest_id", contest_id);
                 parameters.put("state", "winner");
                 return parameters;
             }
