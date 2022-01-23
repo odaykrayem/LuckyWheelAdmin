@@ -141,7 +141,7 @@
             android:layout_below="@id/linear_amount"
             android:orientation="horizontal"
             android:layout_alignParentEnd="true"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_delay"
@@ -158,6 +158,17 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_make_winner_btn"
                 android:text="@string/btn_make_request_done"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/item_delete_btn_txt_size"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_delete_btn"
+                android:text="@string/btn_delete_request"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/item_delete_btn_txt_size"
                 android:layout_marginStart="6dp"

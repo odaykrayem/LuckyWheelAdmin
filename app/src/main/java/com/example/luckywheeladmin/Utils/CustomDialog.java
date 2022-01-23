@@ -119,7 +119,7 @@ public class CustomDialog extends Dialog  {
                     mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                            drawTimeET.setText( selectedHour + ":" + selectedMinute + String.valueOf(calenderTime.get(Calendar.AM_PM)));
+                            drawTimeET.setText( selectedHour + ":" + selectedMinute);
                         }
                     }, hour, minute, true);//Yes 24 hour time
                     mTimePicker.setTitle("Select Time");
@@ -164,7 +164,7 @@ public class CustomDialog extends Dialog  {
                             dismiss();
                         } catch (JSONException e) {
                             progressBar.setVisibility(View.GONE);
-                            buttonsLayout.setVisibility(View.GONE);
+                            buttonsLayout.setVisibility(View.VISIBLE);
 
                             Toast.makeText(getContext(), "Fail to get data.." + e.toString()
                                     + "\nCause " + e.getCause()
@@ -178,7 +178,7 @@ public class CustomDialog extends Dialog  {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.GONE);
-                buttonsLayout.setVisibility(View.GONE);
+                buttonsLayout.setVisibility(View.VISIBLE);
 
                 // handling on error listener method.
                 Toast.makeText(getContext(), "Fail to get data.." + error.toString()

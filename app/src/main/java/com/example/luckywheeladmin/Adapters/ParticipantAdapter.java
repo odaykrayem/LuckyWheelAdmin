@@ -1,6 +1,7 @@
 package com.example.luckywheeladmin.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -74,8 +75,99 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
             }
         });
 
+        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater= LayoutInflater.from(context);
+
+                final View view=inflater.inflate(R.layout.dialog_delete_participant,null);
+                final AlertDialog.Builder alertDialogueBuilder= new AlertDialog.Builder(context);
+
+                alertDialogueBuilder.setView(view);
+                alertDialogueBuilder.setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(NetworkUtils.checkInternetConnection(context)){
+                            deleteParticipant(participantModel, holder.getAdapterPosition());
+                        }else{
+                            Toast.makeText(context, R.string.connection_error, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                });
+                alertDialogueBuilder.setCancelable(true).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+
+                });
+                alertDialogueBuilder.create();
+                alertDialogueBuilder.show();
+            }
+        });
+
 
     }
+
+    private void deleteParticipant(ParticipantModel participantModel, int position) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, NetworkUtils.DELETE_PARTICIPANT_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("response", response);
+
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            String code = jsonObject.getString("error");
+
+                            if(code.equals("false")){
+                                String message = jsonObject.getString("message");
+                                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                                participantModelArrayList.remove(position);
+                                notifyItemRemoved(position);
+                                notifyDataSetChanged();
+                            }else if(code.equals("true")){
+                                String message = jsonObject.getString("message");
+                                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                            }
+                        }catch (JSONException e){
+                            e.printStackTrace();
+
+                            Toast.makeText(context, " Error1! " + e.toString()
+                                    + "\nCause " + e.getCause()
+                                    + "\nmessage" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error", "Error2! " + error.toString()
+                                + "\nCause: " + error.getCause()
+                                + "\nmessage: " + error.getMessage()
+                        );
+                        Toast.makeText(context, "Error2! " + error.toString()
+                                + "\nCause " + error.getCause()
+                                + "\nmessage" + error.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                })
+        {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                Log.e(TAG, String.valueOf(participantModel.getId() ));
+                params.put("participant_id", String.valueOf(participantModel.getId()));
+                return params;
+            }
+
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
     private void makeUserWinner(String user_id, int position, String contest_id) {
         // creating a new variable for our request queue
         Log.e(TAG,"user id" + user_id);

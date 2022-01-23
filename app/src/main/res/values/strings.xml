@@ -38,9 +38,12 @@
     <string name="dialog_request_info_title">معلومات الطلب:</string>
     <string name="request_date">تاريخ الطلب:</string>
     <string name="request_status">حالة الطلب:</string>
-    <string name="bank_code">كود المحفظة:</string>
+    <string name="bank_code">المحفظة:</string>
     <string name="copy_bank_code">نسخ كود المحفظة</string>
     <string name="draw_time">توقيت السحب</string>
+    <string name="btn_delete_request">حذف</string>
+    <string name="dialog_delete_request">هل تريد بالتأكيد حذف هذا الطلب ؟</string>
+    <string name="dialog_delete_participant">هل تريد بالتأكيد حذف هذا المتسابق؟</string>
 
     <!--drawer strings end -->
 

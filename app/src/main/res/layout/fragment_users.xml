@@ -1,77 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/swipe"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:layout_marginTop="6dp"
-android:background="@color/colorAccent">
-
-<!--in this we are displaying a nested scroll view-->
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nested_sV"
+    android:id="@+id/swipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="6dp"
     android:background="@color/colorAccent"
-    >
+    android:paddingBottom="5dp">
 
-    <!--linear layout for displaying
-        our recycler view-->
-    <LinearLayout
+    <!--in this we are displaying a nested scroll view-->
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nested_sV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:background="@color/colorAccent">
+
+        <!--linear layout for displaying
+            our recycler view-->
         <LinearLayout
-            android:id="@+id/note"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-            <TextView
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/note"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Swipe to refresh"
-                android:gravity="center_horizontal"
-                android:textSize="25sp"
-                android:textColor="@android:color/black"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:text="Swipe to refresh"
+                    android:textColor="@android:color/black"
+                    android:textSize="25sp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_swipe"
+                    android:text="swipe to refresh"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_swipe"
+                    android:text="swipe to refresh"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+            <!--recycler view for displaying our list of data
+                and we are making nested scroll for our
+                recycler view as false-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_users"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/rv_item_users"
+
                 />
-            <ImageView
-                android:src="@drawable/ic_swipe"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="swipe to refresh"
-                android:gravity="center_horizontal"
-                android:visibility="visible"
-                android:scaleType="fitCenter"/>
-            <ImageView
-                android:src="@drawable/ic_swipe"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="swipe to refresh"
-                android:gravity="center_horizontal"
-                android:visibility="visible"
-                android:scaleType="fitCenter"/>
 
         </LinearLayout>
-        <!--recycler view for displaying our list of data
-            and we are making nested scroll for our
-            recycler view as false-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_users"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/rv_item_users"
 
-            />
-
-    </LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -76,9 +76,8 @@ public class ContestsAdapter extends RecyclerView.Adapter<ContestsAdapter.ViewHo
                 alertDialogueBuilder.setCancelable(false).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteContest(contestModel);
-                        contestModelArrayList.remove(holder.getAdapterPosition());
-                        notifyItemRemoved(holder.getAdapterPosition());
+                        deleteContest(contestModel, holder.getAdapterPosition());
+
                     }
 
                 });
@@ -95,7 +94,7 @@ public class ContestsAdapter extends RecyclerView.Adapter<ContestsAdapter.ViewHo
 
     }
 
-    private void deleteContest(ContestModel contestModel) {
+    private void deleteContest(ContestModel contestModel, int position) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, NetworkUtils.DELETE_CONTEST_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -109,7 +108,9 @@ public class ContestsAdapter extends RecyclerView.Adapter<ContestsAdapter.ViewHo
                             if(code.equals("false")){
                                 String message = jsonObject.getString("message");
                                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-
+                                contestModelArrayList.remove(position);
+                                notifyItemRemoved(position);
+                                notifyDataSetChanged();
                             }else if(code.equals("true")){
                                 String message = jsonObject.getString("message");
                                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
