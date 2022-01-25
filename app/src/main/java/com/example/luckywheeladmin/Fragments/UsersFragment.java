@@ -162,6 +162,8 @@ public class UsersFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         //adding our string request to queue
+        stringRequest.setShouldCache(false);
+        queue.getCache().clear();
         queue.add(stringRequest);
     }
 

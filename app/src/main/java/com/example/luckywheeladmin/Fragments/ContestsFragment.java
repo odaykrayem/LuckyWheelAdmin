@@ -175,6 +175,8 @@ public class ContestsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         //adding our string request to queue
+        stringRequest.setShouldCache(false);
+        queue.getCache().clear();
         queue.add(stringRequest);
     }
 
@@ -182,6 +184,6 @@ public class ContestsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-  getContests();
+        getContests();
     }
 }

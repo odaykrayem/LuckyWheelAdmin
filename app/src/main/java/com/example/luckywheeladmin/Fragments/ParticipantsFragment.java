@@ -156,6 +156,8 @@ public class ParticipantsFragment extends Fragment implements SwipeRefreshLayout
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         //adding our string request to queue
+        stringRequest.setShouldCache(false);
+        queue.getCache().clear();
         queue.add(stringRequest);
     }
 
