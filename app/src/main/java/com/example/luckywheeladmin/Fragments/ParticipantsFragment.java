@@ -133,14 +133,11 @@ public class ParticipantsFragment extends Fragment implements SwipeRefreshLayout
             public void onErrorResponse(VolleyError error) {
                 mSwipeRefreshLayout.setRefreshing(false);
 
-
                 // handling on error listener method.
                 Toast.makeText(getContext(), "Fail to get data.." + error.toString()
-
                         + "\nCause " + error.getCause()
                         + "\nmessage" + error.getMessage(), Toast.LENGTH_LONG).show();
                 System.out.println("error2" + error.toString()
-
                         + "\nCause " + error.getCause()
                         + "\nmessage" + error.getMessage());
             }
@@ -151,10 +148,7 @@ public class ParticipantsFragment extends Fragment implements SwipeRefreshLayout
                 return parameters;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                3000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         //adding our string request to queue
         stringRequest.setShouldCache(false);
         queue.getCache().clear();

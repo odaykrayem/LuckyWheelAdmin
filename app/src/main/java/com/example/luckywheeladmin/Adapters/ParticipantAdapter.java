@@ -14,13 +14,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.example.luckywheeladmin.Models.ParticipantModel;
 import com.example.luckywheeladmin.R;
 import com.example.luckywheeladmin.Utils.NetworkUtils;
@@ -35,13 +38,12 @@ import java.util.Map;
 public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.ViewHolder> {
 
     // variable for our array list and context.
-    private ArrayList<ParticipantModel> participantModelArrayList;
+    private ArrayList<ParticipantModel> list;
     private Context context;
-    ParticipantModel participantModel;
     private  static String TAG = "Participants_adapter";
     // creating a constructor.
-    public ParticipantAdapter(ArrayList<ParticipantModel> participantModelArrayList, Context context) {
-        this.participantModelArrayList = participantModelArrayList;
+    public ParticipantAdapter(ArrayList<ParticipantModel> list, Context context) {
+        this.list = list;
         this.context = context;
     }
 
@@ -56,7 +58,7 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        participantModel = participantModelArrayList.get(position);
+        ParticipantModel participantModel = list.get(position);
 
         holder.userNameTV.setText(participantModel.getUser_name().trim());
         holder.emailTV.setText(participantModel.getEmail().trim());
@@ -71,6 +73,8 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
             @Override
             public void onClick(View v) {
                 makeUserWinner(String.valueOf(participantModel.getUser_id()),position, String.valueOf(participantModel.getContest_id()));
+//                makeUserW(String.valueOf(participantModel.getUser_id()), String.valueOf(participantModel.getContest_id()), position);
+
 
             }
         });
@@ -88,7 +92,8 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if(NetworkUtils.checkInternetConnection(context)){
-                            deleteParticipant(participantModel, holder.getAdapterPosition());
+                            deleteParticipant(participantModel, position);
+//                            deleteP( String.valueOf(participantModel.getId()),position);
                         }else{
                             Toast.makeText(context, R.string.connection_error, Toast.LENGTH_SHORT).show();
                         }
@@ -110,7 +115,45 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
 
     }
 
+//    private void deleteP(String id , int position){
+//        AndroidNetworking.post(NetworkUtils.DELETE_PARTICIPANT_URL).setPriority(Priority.MEDIUM)
+//                .addBodyParameter("participant_id", id)
+//                .build()
+//                .getAsJSONObject(new JSONObjectRequestListener() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        // do anything with response
+//                        try {
+//                            //converting response to json object
+//                            JSONObject obj = response;
+//                            //if no error in response
+//                            if (obj.getInt("error") == 1) {
+//                                Toast.makeText(context, obj.getString("message"), Toast.LENGTH_SHORT).show();
+//
+//                                //getting the user from the response
+//                                JSONObject userJson = obj.getJSONObject("data");
+//                                Log.e("data", userJson.toString());
+//                                list.get(position).setIs_winner(true);
+//                                notifyItemChanged(position);
+//                                list.remove(position);
+//                                notifyItemRemoved(position);
+//                                notifyDataSetChanged();
+//                            } else if(obj.getInt("status") == 0){
+//                                Toast.makeText(context, obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    @Override
+//                    public void onError(ANError anError) {
+//                        Toast.makeText(context, anError.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
     private void deleteParticipant(ParticipantModel participantModel, int position) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, NetworkUtils.DELETE_PARTICIPANT_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -124,7 +167,7 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
                             if(code.equals("false")){
                                 String message = jsonObject.getString("message");
                                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                                participantModelArrayList.remove(position);
+                                list.remove(position);
                                 notifyItemRemoved(position);
                                 notifyDataSetChanged();
                             }else if(code.equals("true")){
@@ -158,15 +201,79 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                Log.e(TAG, String.valueOf(participantModel.getId() ));
+                Log.e(TAG, String.valueOf(participantModel.getId()));
                 params.put("participant_id", String.valueOf(participantModel.getId()));
                 return params;
             }
 
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        stringRequest.setShouldCache(false);
+        requestQueue.getCache().clear();
         requestQueue.add(stringRequest);
     }
+
+
+    void makeUserW(String id, String contest_id, int position){
+        AndroidNetworking.post(NetworkUtils.CHANGE_USER_WINNER_STATE_URL).setPriority(Priority.MEDIUM)
+                .addBodyParameter("id", id)
+                .addBodyParameter("contest_id", contest_id)
+                .addBodyParameter("state", "winner")
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // do anything with response
+                        try {
+                            //converting response to json object
+                            JSONObject obj = response;
+                            //if no error in response
+                            if (obj.getInt("error") == 1) {
+                                Toast.makeText(context, obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                                //getting the user from the response
+                                JSONObject userJson = obj.getJSONObject("data");
+                                Log.e("data", userJson.toString());
+                                list.get(position).setIs_winner(true);
+                                notifyItemChanged(position);
+
+                            } else if(obj.getInt("status") == 0){
+                                Toast.makeText(context, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        Toast.makeText(context, anError.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    @Override
+    public int getItemCount() {
+        // returning the size of array list.
+        return list.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        // creating a variable for our text view and image view.
+        private TextView userNameTV, emailTV, prizeTV;
+        private Button deleteBtn, makeWinnerBtn;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+//            // initializing our variables.
+            userNameTV = itemView.findViewById(R.id.tv_item_name);
+            emailTV = itemView.findViewById(R.id.tv_item_email);
+            prizeTV = itemView.findViewById(R.id.tv_item_prize);
+            deleteBtn = itemView.findViewById(R.id.btn_delete_participant);
+            makeWinnerBtn = itemView.findViewById(R.id.btn_make_participant_winner);
+
+        }
+    }
+
+
 
     private void makeUserWinner(String user_id, int position, String contest_id) {
         // creating a new variable for our request queue
@@ -181,10 +288,13 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
                             Log.e(TAG, response);
                             JSONObject jsonObject = new JSONObject(response);
                             String error = jsonObject.getString("error");
+                            if(error.equals("false")){
+                                list.get(position).setIs_winner(true);
+                                notifyItemChanged(position);
+                            }
                             String message = jsonObject.getString("message");
                             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                            participantModelArrayList.get(position).setIs_winner(true);
-                            notifyItemChanged(position);
+
                         } catch (JSONException e) {
 
                             Toast.makeText(context, "Fail to get data.." + e.toString()
@@ -219,36 +329,11 @@ public class ParticipantAdapter extends RecyclerView.Adapter<ParticipantAdapter.
                 return parameters;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                3000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setShouldCache(false);
+        queue.getCache().clear();
         //adding our string request to queue
         queue.add(stringRequest);
 
     }
 
-    @Override
-    public int getItemCount() {
-        // returning the size of array list.
-        return participantModelArrayList.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        // creating a variable for our text view and image view.
-        private TextView userNameTV, emailTV, prizeTV;
-        private Button deleteBtn, makeWinnerBtn;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-//            // initializing our variables.
-            userNameTV = itemView.findViewById(R.id.tv_item_name);
-            emailTV = itemView.findViewById(R.id.tv_item_email);
-            prizeTV = itemView.findViewById(R.id.tv_item_prize);
-            deleteBtn = itemView.findViewById(R.id.btn_delete_participant);
-            makeWinnerBtn = itemView.findViewById(R.id.btn_make_participant_winner);
-
-        }
-    }
 }

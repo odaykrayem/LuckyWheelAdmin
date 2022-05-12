@@ -177,6 +177,7 @@ public class ContestsFragment extends Fragment implements SwipeRefreshLayout.OnR
         //adding our string request to queue
         stringRequest.setShouldCache(false);
         queue.getCache().clear();
+
         queue.add(stringRequest);
     }
 

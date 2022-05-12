@@ -1,5 +1,6 @@
 package com.example.luckywheeladmin.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,10 +42,17 @@ public class UsersFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     SwipeRefreshLayout mSwipeRefreshLayout;
     LinearLayout note;
 
+    Context ctx;
     private ArrayList<UserModel> userModelArrayList;
     private UserAdapter usersAdapter;
 
     final String TAG = "users_FR";
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.ctx = context;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,7 +106,7 @@ public class UsersFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                             String code = jsonObject.getString("error");
                             if(code.equals("false")) {
                                 JSONArray operations =  jsonObject.getJSONArray("list");
-                                Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ctx, message, Toast.LENGTH_LONG).show();
                                 for (int i = 0; i < operations.length(); i++) {
                                     JSONObject object = operations.getJSONObject(i);
                                     Log.e(TAG, object.toString());
